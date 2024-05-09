@@ -20,23 +20,29 @@ auth_header = {"Authorization": f"Bearer {token}"}
 api = "https://api.spotify.com/v1"
 request_count = 0
 with open("songs.jsonl", "a") as f:
-    while request_count < 20:
+    while request_count < 1:
         request_count += 1
-        recommendation_options = {"limit":1,
-                                "seed_genres":"indian",
+        recommendation_options = {"limit":100,
+                                "seed_genres":"indian,happy,party,romance,sad",
                                 "min_popularity":50,
                                 # "target_popularity":90,
-                                "target_valence":random.random(),
-                                "target_danceability":random.random(),
-                                "target_energy":random.random(),
-                                "target_instrumentalness":random.random(),
-                                "target_liveness":1.0,
-                                "target_loudness":0.5,
-                                "target_speechiness":0}
+                                # "target_valence":random.random(),
+                                # "target_danceability":random.random(),
+                                # "target_energy":random.random(),
+                                # "target_instrumentalness":random.random(),
+                                # "target_liveness":random.random(),
+                                # "target_loudness":random.random(),
+                                # "target_speechiness":random.random()
+                                }
         recommendation_options = "&".join([k+"="+str(v) for k,v in recommendation_options.items()])
         url = api+"/recommendations?"+recommendation_options
         res = requests.get(url, headers=auth_header)
-        print(res.text)
+        # print(res.text)
         tracks = json.loads(res.text)["tracks"]
         for t in tracks:
             f.write(json.dumps(t)+"\n")
+
+
+# with open("genres.txt", "w") as f:
+#     for genre in json.loads(requests.get(api+"/recommendations/available-genre-seeds", headers=auth_header).text)["genres"]:
+#         f.write(genre+"\n")

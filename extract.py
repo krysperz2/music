@@ -1,6 +1,6 @@
 import csv, json
 
-with open("song2.jsonl") as f:
+with open("songs2.jsonl") as f:
     with open("songs.csv", "w") as f2:
         writer = csv.writer(f2)
         writer.writerow(["name", "artist_ids", "spotify_id", "album_name", "album_release_date"])
