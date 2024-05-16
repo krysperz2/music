@@ -19,12 +19,18 @@ except:
 auth_header = {"Authorization": f"Bearer {token}"}
 api = "https://api.spotify.com/v1"
 request_count = 0
-with open("songs.jsonl", "a") as f:
+
+seed_tracks = []
+with open("seed-tracks") as f:
+    seed_tracks = [i.split()[0] for i in f.read().split("\n")]
+
+with open("songs-tmp.jsonl", "a") as f:
     while request_count < 1:
         request_count += 1
         recommendation_options = {"limit":100,
-                                "seed_genres":"indian,happy,party,romance,sad",
+                                "seed_genres":"indian",
                                 "min_popularity":50,
+                                "seed_tracks":",".join(random.choices(seed_tracks,k=4))
                                 # "target_popularity":90,
                                 # "target_valence":random.random(),
                                 # "target_danceability":random.random(),
